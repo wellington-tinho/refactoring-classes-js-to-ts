@@ -1,6 +1,12 @@
 import { Component } from 'react';
 import ReactModal from 'react-modal';
 
+// type propsComponent = {
+//   isOpen: boolean;
+//   onRequestClose: () => void;
+//   children: any;
+// }
+
 class Modal extends Component {
   constructor(props) {
     super(props);
