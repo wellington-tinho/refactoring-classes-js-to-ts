@@ -17,7 +17,7 @@ type InputProps = {
 }
 
 const Input = ({ name, Icon, ...rest }: InputProps) => {
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
