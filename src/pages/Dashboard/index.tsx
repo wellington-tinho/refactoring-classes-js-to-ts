@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Header from '../../components/Header';
 import api from '../../services/api';
@@ -28,25 +28,16 @@ function Dashboard(props:DashboardProps) {
     const [state, setState] = useState(initialState);
     const {foods, editingFood, modalOpen, editModalOpen } = state;
     
-    // const stateAux = useMemo(() => {
-    //   return {...state};
-    // }, [state])
-    // const stateAux =  {...state};
 
-    console.log("loop do bom");
-    
+    useEffect(() => {
+      async function loadFoods(): Promise<void> {
+        const { data } = await api.get('/foods');
+        setState(prev=> ({ ...prev, foods: data }));
+        console.log(data, 'data');
+      }
+      loadFoods();
+    }, []);
 
-    
- 
- 
-    // async function loadFoods() {
-    //   const data = await api.get('/foods').then(response => {
-    //     return response.data;
-    //   });
-    //   setState({ ...stateAux, foods: data });
-    //   console.log(data);
-    // }
-    // loadFoods();
 
 
   const handleAddFood = async (food: DashboardProps) =>{
