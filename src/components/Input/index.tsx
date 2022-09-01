@@ -30,7 +30,6 @@ const Input = ({ name, Icon, ...rest }: InputProps) => {
 
   const handleInputBlur = useCallback(() => {
     setIsFocused(false);
-
     setIsFilled(!!inputRef.current?.value);
   }, []);
 

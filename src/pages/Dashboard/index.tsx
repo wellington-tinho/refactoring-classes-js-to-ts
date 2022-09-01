@@ -17,7 +17,7 @@ type DashboardProps = {
   editModalOpen: boolean
 }
 
-function Dashboard(props:DashboardProps) {
+function Dashboard() {
     const initialState = {
       foods: [] as IFood[],
       editingFood: {},
@@ -33,7 +33,6 @@ function Dashboard(props:DashboardProps) {
       async function loadFoods(): Promise<void> {
         const { data } = await api.get('/foods');
         setState(prev=> ({ ...prev, foods: data }));
-        console.log(data, 'data');
       }
       loadFoods();
     }, []);
@@ -41,23 +40,19 @@ function Dashboard(props:DashboardProps) {
 
 
   const handleAddFood = async (food: DashboardProps) =>{
-    const { foods } = food;
-
     try {
       const response = await api.post('/foods', {
         ...food,
         available: true,
       });
 
-      setState({ ...state, foods: [...foods, response.data] });
+      setState(prev=> ({ ...prev, foods: [...foods, response.data] }));
     } catch (err) {
       console.log(err);
     }
   }
 
   const handleUpdateFood = async (food: DashboardProps) =>{
-    const { foods, editingFood } = food;
-
     try {
       const foodUpdated = await api.put(
         `/foods/${editingFood.id}`,
@@ -68,36 +63,28 @@ function Dashboard(props:DashboardProps) {
         f.id !== foodUpdated.data.id ? f : foodUpdated.data,
       );
 
-      setState({...state, foods: foodsUpdated });
+      setState(prev=> ({ ...prev, foods: foodsUpdated }));
     } catch (err) {
       console.log(err);
     }
   }
   
   const handleDeleteFood = async (id: number) => {
-    const { foods } = state as DashboardProps;	
-
     await api.delete(`/foods/${id}`);
-
     const foodsFiltered = foods.filter(food => food.id !== id);
-
-    setState({...state, foods: foodsFiltered });
+    setState(prev=> ({ ...prev, foods: foodsFiltered }));
   }
 
   const toggleModal = () => {
-    const { modalOpen } = state as DashboardProps;
-
-    setState({...state, modalOpen: !modalOpen });
+    setState(prev=> ({ ...prev, modalOpen: !modalOpen }));
   }
 
   const toggleEditModal = () => {
-    const { editModalOpen } = state as DashboardProps;
-
-    setState({...state, editModalOpen: !editModalOpen });
+    setState(prev=> ({ ...prev, editModalOpen: !editModalOpen }));
   }
 
   const handleEditFood = (food: IFood) => {
-    setState({...state, editingFood: food, editModalOpen: true });
+    setState(prev=> ({ ...prev, editingFood: food, editModalOpen: true }));
   }
 
 
